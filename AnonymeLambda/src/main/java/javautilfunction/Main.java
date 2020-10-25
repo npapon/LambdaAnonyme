@@ -20,6 +20,16 @@ public class Main {
         // exemple (Personne personne et le paramètre de la méthode et return le
         // retour de la méthode
 
+        Function<Personne, String> functionTestZero = new Function<Personne, String>() {
+
+            @Override
+            public String apply( Personne personne ) {
+                // TODO Auto-generated method stub
+                return personne.getNom();
+            }
+
+        };
+
         Function<Personne, String> functionTest = ( Personne personne ) ->
 
         {
@@ -28,11 +38,14 @@ public class Main {
         };
 
         Personne nicolas = new Personne( 37, "Nicolas" );
-        String nomNicolas = functionTest.apply( nicolas );
+        String nomNicolas = functionTestZero.apply( nicolas );
+        System.out.println( nomNicolas );
+
+        nomNicolas = functionTest.apply( nicolas );
         System.out.println( nomNicolas );
 
         /*
-         * Console : un petit test pour démarrer Nicolas
+         * Console : Nicolas un petit test pour démarrer Nicolas
          */
 
         // On va utiliser Function pour parcourir les données String et Integer
@@ -52,6 +65,21 @@ public class Main {
                 functionRetourneAgePersonneFois2 );
         System.out.println( listAgePersonnesFois2 );
         // [8, 0, 72]
+
+        Function<Integer, Integer> functionRetourneIntegerFois10 = ( Integer unInteger ) -> unInteger * 10;
+        Function<Integer, Integer> functionRetourneIntegerFois100 = ( Integer unInteger ) -> unInteger * 100;
+        Integer unInteger = 3;
+
+        System.out.println( functionRetourneIntegerFois10.andThen( functionRetourneIntegerFois100 ).apply( 3 ) );
+
+        // 30
+
+        Function<Personne, Integer> functionRetourneAgePersonne = ( Personne personne ) -> personne.getAge();
+
+        List<Integer> listAgePersonneFois10 = retourneListIntegerAPartirListPersonne( listPersonnes,
+                functionRetourneAgePersonne.andThen( functionRetourneIntegerFois10 ) );
+
+        System.out.println( listAgePersonneFois10 );
 
     }
 
